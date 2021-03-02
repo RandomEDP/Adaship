@@ -17,27 +17,37 @@ void computerGame(){
   int y = stoi(ini["Board"]["y"]);
 
   class Ship{
-	  //Ship name
-    public:
-	  string name;
-	  //Total points on the grid
-  	int length;
-	  //Coordinates of those points
-    int x;
-    int y;
-    string direction;
+    private:
+	    //Ship name
+	    string name;
+	    //Total points on the grid
+  	  int length;
+	    //Coordinates of those points
+      int x;
+      int y;
+      string direction;
+
+      public:
+        void setName(string n){
+          name = n;
+        }
+        void setLength(int l){
+          length = l;
+        }
+
   };
   cout << "You have choosen a computer game\n";
-  // int board[stoi(x)][stoi(y)]; // Two-dimensional array for gameboard.
+  int board[x][y]; // Two-dimensional array for gameboard.
   int counter = 0;
   for (auto const& it : ini){
 	  auto const& collection = it.second;
 	  for (auto const& it2 : collection){
 		  auto const& key = it2.first;
       Ship ship[counter];
-      ship[counter].name = key;
-      int length = stoi(ini["Boats"][key]);
-      ship[counter].length = length;
+      ship[counter].setName(key);
+      // string length = ini["Boats"][key];
+      // int test = stoi(length);
+      // ship[counter].setLength(test);
       cout << "Where would you like to place your " << key;
 	  }
   }
