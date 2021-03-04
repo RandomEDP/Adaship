@@ -1,6 +1,8 @@
 #include <iostream>
 #define MINI_CASE_SENSITIVE
 #include "src/mini/ini.h"
+#include <vector>
+#include <string>
 using namespace std;
 
 void computerGame(){
@@ -19,7 +21,7 @@ void computerGame(){
   class Ship{
     private:
 	    //Ship name
-	    string name;
+      string name;
 	    //Total points on the grid
   	  int length;
 	    //Coordinates of those points
@@ -34,24 +36,24 @@ void computerGame(){
         void setLength(int l){
           length = l;
         }
-
+        string getName(){
+          return name;
+        }
   };
   cout << "You have choosen a computer game\n";
   int board[x][y]; // Two-dimensional array for gameboard.
   int counter = 0;
-  for (auto const& it : ini){
-	  auto const& collection = it.second;
-	  for (auto const& it2 : collection){
-		  auto const& key = it2.first;
-      Ship ship[counter];
-      ship[counter].setName(key);
-      // string length = ini["Boats"][key];
-      // int test = stoi(length);
-      // ship[counter].setLength(test);
-      cout << "Where would you like to place your " << key;
-	  }
+  vector <Ship> ships;
+  for(auto read : ini["Boats"]){
+    // cout << read.first << "=" << read.second << endl;
+    Ship temp;
+    temp.setName(read.first);
+    temp.setLength(stoi(read.second));
+    ships.push_back(temp);
+    counter++;
   }
-}
+  cout << "Where would you like to put your ships";
+} 
 
 void menu(){
   int value;
