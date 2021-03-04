@@ -43,16 +43,19 @@ void computerGame(){
   cout << "You have choosen a computer game\n";
   int board[x][y]; // Two-dimensional array for gameboard.
   int counter = 0;
+  string input;
   vector <Ship> ships;
   for(auto read : ini["Boats"]){
-    // cout << read.first << "=" << read.second << endl;
+    cin.ingore();
     Ship temp;
     temp.setName(read.first);
     temp.setLength(stoi(read.second));
     ships.push_back(temp);
     counter++;
+    cout << "Where would you like to put your " << read.first << "X first eg(5,3)";
   }
-  cout << "Where would you like to put your ships";
+  getline(cin,input); 
+
 } 
 
 void menu(){
