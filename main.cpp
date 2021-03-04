@@ -3,6 +3,7 @@
 #include "src/mini/ini.h"
 #include <vector>
 #include <string>
+#include <boost/algorithm/string.hpp>
 using namespace std;
 
 void computerGame(){
@@ -36,26 +37,44 @@ void computerGame(){
         void setLength(int l){
           length = l;
         }
+        void setX(int xIn){
+          x = xIn;
+        }
+        void setY(int yIn){
+          y = yIn;
+        }
+        void setDirection(string input){
+          direction = input;
+        }
         string getName(){
           return name;
         }
+        
   };
   cout << "You have choosen a computer game\n";
   int board[x][y]; // Two-dimensional array for gameboard.
   int counter = 0;
-  string input;
+  int inputX;
+  int inputY;
+  string inputDirection;
   vector <Ship> ships;
   for(auto read : ini["Boats"]){
-    cin.ingore();
+    cin.ignore();
     Ship temp;
     temp.setName(read.first);
     temp.setLength(stoi(read.second));
+    cout << "Where would you like to put your " << read.first << " \nX: ";
+    cin >> inputX; 
+    temp.setX(inputX);
+    cout << "Y: ";
+    cin >> inputY;
+    temp.setY(inputY);
+    cout << "What direction would you like (right,left,down,up): ";
+    getline(cin,inputDirection);
     ships.push_back(temp);
     counter++;
-    cout << "Where would you like to put your " << read.first << "X first eg(5,3)";
   }
-  getline(cin,input); 
-
+  
 } 
 
 void menu(){
@@ -71,7 +90,7 @@ void menu(){
     quick_exit(1);
   }
   else{
-    cout << "Please type 1 or 2";
+    cout << "Please type 1 or 2\n";
     menu();
   }
 }
