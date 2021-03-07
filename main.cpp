@@ -8,8 +8,9 @@
 using namespace std;
 
 int boardDraw(int x, int y){
+  cout << "\n";
   int maxX = 0;
-  for (int z = 0; z < y; y++){
+  for (int z = 0; z < y; z++){
     for (int i = 0; i < x+1; i++){
       if ((y == 0) && (i != 0)) {
         std::cout << "-----";
@@ -76,6 +77,9 @@ void computerGame(){
         string getName(){
           return name;
         }
+        string getDirection(){
+          return direction;
+        }
         
   };
   cout << "You have choosen a computer game\n";
@@ -96,12 +100,31 @@ void computerGame(){
     cout << "Y: ";
     cin >> inputY;
     temp.setY(inputY);
+    cin.ignore();
     cout << "What direction would you like (right,left,down,up): ";
     getline(cin,inputDirection);
+    if(inputDirection=="right"){
+      temp.setDirection(inputDirection);
+    }
+    else if(inputDirection=="left"){
+      temp.setDirection(inputDirection);
+    }
+    else if(inputDirection=="down"){
+      temp.setDirection(inputDirection);
+    }
+    else if(inputDirection=="up"){
+      temp.setDirection(inputDirection);
+    }
+    else{
+      cout << "Please type right left down or up: ";
+      cin >> inputDirection;
+      }
     ships.push_back(temp);
     counter++;
+    temp.getName();
+    temp.getDirection();
   }
-  boardDraw(x, y);
+  boardDraw(x,y);
 
 } 
 
