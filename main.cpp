@@ -4,7 +4,34 @@
 #include <vector>
 #include <string>
 #include <boost/algorithm/string.hpp>
+#include <iomanip>
 using namespace std;
+
+int boardDraw(int x, int y){
+  int maxX = 0;
+  for (int z = 0; z < y; y++){
+    for (int i = 0; i < x+1; i++){
+      if ((y == 0) && (i != 0)) {
+        std::cout << "-----";
+        if (maxX < i){
+          maxX = i;
+        }
+      }
+      if (y != 0){
+        if (i == 0){
+          std::cout << "|";
+        }else{
+          std::cout <<setw(5) << "|";
+        }
+      }
+    }
+    std::cout << "\n";
+  }
+  for (int i = 0; i < maxX; i++){
+    std::cout << "-----";
+  }
+  return 1;
+}
 
 void computerGame(){
   // first, create a file instance
@@ -74,7 +101,8 @@ void computerGame(){
     ships.push_back(temp);
     counter++;
   }
-  
+  boardDraw(x, y);
+
 } 
 
 void menu(){
