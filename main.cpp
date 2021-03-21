@@ -16,6 +16,8 @@ class Ship{
 	  //Coordinates of those points
     int x;
     int y;
+    vector <int> posX;
+    vector <int> posY;
     string direction;
 
     public:
@@ -46,10 +48,66 @@ class Ship{
       string getDirection(){
         return direction;
       }
+      vector<int> getPosX(){
+        if(direction=="right"){
+          for(int n = 0; length > n; n++){
+            int temp = x+n;
+            posX.push_back(temp);
+          }
+        }
+        if(direction=="up"){
+          for(int n = 0; length > n; n++){
+            int temp = x;
+            posX.push_back(temp);
+          }
+        }
+        if(direction=="down"){
+          for(int n = 0; length > n; n++){
+            int temp = x;
+            posX.push_back(temp);
+          }
+        }
+        if(direction=="left"){
+          for(int n = 0; length > n; n++){
+            int temp = x-n;
+            posX.push_back(temp);
+          }
+        }
+        return posX; 
+      }
+      vector<int> getPosY(){
+        if(direction=="up"){
+          for(int n = 0; length > n; n++){
+            int temp = y-n;
+            posY.push_back(temp);
+          }
+        }
+        if(direction=="down"){
+          for(int n = 0; length > n; n++){
+            int temp = y+n;
+            posY.push_back(temp);
+          }
+        }
+        if(direction=="left"){
+          for(int n = 0; length > n; n++){
+            int temp = y;
+            posY.push_back(temp);
+          }
+        }
+        if(direction=="right"){
+          for(int n = 0; length > n; n++){
+            int temp = y;
+            posY.push_back(temp);
+          }
+        }
+        return posY; 
+      }
   };
 int boardDraw(int x, int y,vector<Ship> ships){
   cout << "\n";
   int maxX = 0;
+  int tempX;
+  int tempY;
   for (int z = 0; z < y; z++){
     for (int i = 0; i < x+1; i++){
       if ((y == 0) && (i != 0)) {
@@ -59,13 +117,24 @@ int boardDraw(int x, int y,vector<Ship> ships){
         }
       }
       if (y != 0){
-        for(int n = 0; n< ships.size(); n++){
-          if(ships[n].getX()==i){
-            if(ships[n].getY()==z){
-              cout << "X";
+        for(int p = 0; p<ships.size(); p++){
+          vector<int> posX = ships[p].getPosX();
+          vector<int> posY = ships[p].getPosY();
+          for(int k = 0; k<posX.size(); k++){
+            for(int b = 0; b<posY.size(); b++){
+              tempX = posX[k];
+              tempY = posY[b]-1;
+              if(tempX==i){
+                if(tempY==z){
+                  cout << "X";
+                  cout <<setw(4) << "|";
+                  i++;
+                }
+              }
             }
           }
         }
+          // tempY = ships[n].getY()-1;
         if (i == 0){
           cout << "|";
         }else{
@@ -108,10 +177,20 @@ void computerGame(){
     temp.setLength(stoi(read.second));
     cout << "Where would you like to put your " << read.first << " \nX: ";
     cin >> inputX; 
-    temp.setX(inputX);
     cout << "Y: ";
     cin >> inputY;
+    for(int n = 0; n<ships.size(); n++){
+      if(ships[n].getX()==inputX){
+        if(ships[n].getY()==inputY){
+          cout << "That postion is taken please try again\nX :";
+          cin >> inputX; 
+          cout << "Y: ";
+          cin >> inputY;
+        }
+      }
+    }
     temp.setY(inputY);
+    temp.setX(inputX);
     cin.ignore();
     cout << "What direction would you like (right,left,down,up): ";
     // getline(cin,inputDirection);
