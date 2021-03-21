@@ -61,7 +61,9 @@ int boardDraw(int x, int y,vector<Ship> ships){
       if (y != 0){
         for(int n = 0; n< ships.size(); n++){
           if(ships[n].getX()==i){
-            cout << "X";
+            if(ships[n].getY()==z){
+              cout << "X";
+            }
           }
         }
         if (i == 0){
