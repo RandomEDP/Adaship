@@ -7,29 +7,74 @@
 #include <iomanip>
 using namespace std;
 
-int boardDraw(int x, int y){
+class Ship{
+  private:
+	  //Ship name
+     string name;
+	  //Total points on the grid
+  	int length;
+	  //Coordinates of those points
+    int x;
+    int y;
+    string direction;
+
+    public:
+      void setName(string n){
+        name = n;
+      }
+      void setLength(int l){
+        length = l;
+      }
+      void setX(int xIn){
+        x = xIn;
+      }
+      void setY(int yIn){
+        y = yIn;
+      }
+      void setDirection(string input){
+        direction = input;
+      }
+      int getY(){
+        return y;
+      }
+      int getX(){
+        return x;
+      }
+      string getName(){
+        return name;
+      }
+      string getDirection(){
+        return direction;
+      }
+  };
+int boardDraw(int x, int y,vector<Ship> ships){
   cout << "\n";
   int maxX = 0;
   for (int z = 0; z < y; z++){
     for (int i = 0; i < x+1; i++){
       if ((y == 0) && (i != 0)) {
-        std::cout << "-----";
+        cout << "-----";
         if (maxX < i){
           maxX = i;
         }
       }
       if (y != 0){
+        for(int n = 0; n< ships.size(); n++){
+          if(ships[n].getX()==i){
+            cout << "X";
+          }
+        }
         if (i == 0){
-          std::cout << "|";
+          cout << "|";
         }else{
-          std::cout <<setw(5) << "|";
+          cout <<setw(5) << "|";
         }
       }
     }
-    std::cout << "\n";
+    cout << "\n";
   }
   for (int i = 0; i < maxX; i++){
-    std::cout << "-----";
+    cout << "-----";
   }
   return 1;
 }
@@ -47,43 +92,8 @@ void computerGame(){
   int x = stoi(ini["Board"]["x"]);
   int y = stoi(ini["Board"]["y"]);
 
-  class Ship{
-    private:
-	    //Ship name
-      string name;
-	    //Total points on the grid
-  	  int length;
-	    //Coordinates of those points
-      int x;
-      int y;
-      string direction;
 
-      public:
-        void setName(string n){
-          name = n;
-        }
-        void setLength(int l){
-          length = l;
-        }
-        void setX(int xIn){
-          x = xIn;
-        }
-        void setY(int yIn){
-          y = yIn;
-        }
-        void setDirection(string input){
-          direction = input;
-        }
-        string getName(){
-          return name;
-        }
-        string getDirection(){
-          return direction;
-        }
-        
-  };
   cout << "You have choosen a computer game\n";
-  int board[x][y]; // Two-dimensional array for gameboard.
   int counter = 0;
   int inputX;
   int inputY;
@@ -102,7 +112,8 @@ void computerGame(){
     temp.setY(inputY);
     cin.ignore();
     cout << "What direction would you like (right,left,down,up): ";
-    getline(cin,inputDirection);
+    // getline(cin,inputDirection);
+    cin >> (inputDirection);
     if(inputDirection=="right"){
       temp.setDirection(inputDirection);
     }
@@ -123,10 +134,12 @@ void computerGame(){
     counter++;
     temp.getName();
     temp.getDirection();
+    
   }
-  boardDraw(x,y);
+  boardDraw(x,y,ships);
 
 } 
+
 
 void menu(){
   int value;
@@ -136,6 +149,7 @@ void menu(){
   cin >> value;
   if(value==1){
     computerGame();
+    
   }
   else if(value==2){
     quick_exit(1);
