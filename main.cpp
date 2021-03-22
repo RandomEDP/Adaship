@@ -6,6 +6,14 @@
 #include <boost/algorithm/string.hpp>
 #include <iomanip>
 using namespace std;
+#include <stdlib.h>
+
+int generateNumber(int maxValue){
+    srand((unsigned) time(0));
+    srand (1);
+    int result = 1 + (rand() % maxValue);
+    return result;
+}
 
 class Ship{
   private:
@@ -168,59 +176,82 @@ void computerGame(){
   int counter = 0;
   int inputX;
   int inputY;
+  string input;
   string inputDirection;
   vector <Ship> ships;
-  for(auto read : ini["Boats"]){
-    cin.ignore();
-    Ship temp;
-    temp.setName(read.first);
-    temp.setLength(stoi(read.second));
-    cout << "Where would you like to put your " << read.first << " \nX: ";
-    cin >> inputX; 
-    cout << "Y: ";
-    cin >> inputY;
-    for(int n = 0; n<ships.size(); n++){
-      if(ships[n].getX()==inputX){
-        if(ships[n].getY()==inputY){
-          cout << "That postion is taken please try again\nX :";
-          cin >> inputX; 
-          cout << "Y: ";
-          cin >> inputY;
+  cout << "Would you like autoplace or custom(y/n): ";
+  cin >> input;
+  if(input=="y"){
+    for(auto read : ini["Boats"]){
+      cin.ignore();
+      Ship temp;
+      temp.setName(read.first);
+      temp.setLength(stoi(read.second));
+      cout << "Where would you like to put your " << read.first << " \nX: ";
+      cin >> inputX; 
+      cout << "Y: ";
+      cin >> inputY;
+      for(int n = 0; n<ships.size(); n++){
+        if(ships[n].getX()==inputX){
+          if(ships[n].getY()==inputY){
+            cout << "That postion is taken please try again\nX :";
+            cin >> inputX; 
+            cout << "Y: ";
+            cin >> inputY;
+          }
         }
       }
-    }
-    temp.setY(inputY);
-    temp.setX(inputX);
-    cin.ignore();
-    cout << "What direction would you like (right,left,down,up): ";
-    // getline(cin,inputDirection);
-    cin >> (inputDirection);
-    if(inputDirection=="right"){
-      temp.setDirection(inputDirection);
-    }
-    else if(inputDirection=="left"){
-      temp.setDirection(inputDirection);
-    }
-    else if(inputDirection=="down"){
-      temp.setDirection(inputDirection);
-    }
-    else if(inputDirection=="up"){
-      temp.setDirection(inputDirection);
-    }
-    else{
-      cout << "Please type right left down or up: ";
-      cin >> inputDirection;
+      temp.setY(inputY);
+      temp.setX(inputX);
+      cin.ignore();
+      cout << "What direction would you like (right,left,down,up): ";
+      // getline(cin,inputDirection);
+      cin >> (inputDirection);
+      if(inputDirection=="right"){
+        temp.setDirection(inputDirection);
       }
-    ships.push_back(temp);
-    counter++;
-    temp.getName();
-    temp.getDirection();
-    
+      else if(inputDirection=="left"){
+        temp.setDirection(inputDirection);
+      }
+      else if(inputDirection=="down"){
+        temp.setDirection(inputDirection);
+      }
+        else if(inputDirection=="up"){
+        temp.setDirection(inputDirection);
+      }
+      else{
+        cout << "Please type right left down or up: ";
+        cin >> inputDirection;
+        }
+      ships.push_back(temp);
+      counter++;
+      temp.getName();
+      temp.getDirection();
+    }
+    boardDraw(x,y,ships);
+  }
+  if(input=="n"){
+    cout << generateNumber(10);
+    for(auto read : ini["Boats"]){
+      Ship temp;
+      temp.setName(read.first);
+      temp.setLength(stoi(read.second));
+      temp.setX(generateNumber(9));
+      temp.setY(generateNumber(10));
+      temp.setDirection("left");
+      ships.push_back(temp);
+      counter++;
+      temp.getName();
+      temp.getDirection();
+      cout << "\nShip : " << temp.getName() << " placed at " << temp.getX() << temp.getY() << "\n";
   }
   boardDraw(x,y,ships);
-
-} 
-
+}
+  else{
+    cout << "Please enter either Y or N: ";
+    computerGame();
+  }
+}
 
 void menu(){
   int value;
