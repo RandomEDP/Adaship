@@ -7,12 +7,14 @@
 #include <iomanip>
 using namespace std;
 #include <stdlib.h>
+#include <map>
+#include <random>
 
 int generateNumber(int maxValue){
-    srand((unsigned) time(0));
-    srand (1);
-    int result = 1 + (rand() % maxValue);
-    return result;
+    random_device rdev;
+    mt19937 rgen(rdev());
+    uniform_int_distribution<int> idist(1, maxValue); //(inclusive, inclusive)
+    return idist(rgen);
 }
 
 class Ship{
@@ -116,6 +118,7 @@ int boardDraw(int x, int y,vector<Ship> ships){
   int maxX = 0;
   int tempX;
   int tempY;
+  cout << "A    B    C    D    E    F    G    H    I    J    K\n";
   for (int z = 0; z < y; z++){
     for (int i = 0; i < x+1; i++){
       if ((y == 0) && (i != 0)) {
@@ -134,7 +137,7 @@ int boardDraw(int x, int y,vector<Ship> ships){
               tempY = posY[b]-1;
               if(tempX==i){
                 if(tempY==z){
-                  cout << "X";
+                  cout << ships[p].getName().at(0);
                   cout <<setw(4) << "|";
                   i++;
                 }
@@ -179,9 +182,9 @@ void computerGame(){
   string input;
   string inputDirection;
   vector <Ship> ships;
-  cout << "Would you like autoplace or custom(y/n): ";
+  cout << "Would you like to autoplace your ships(y/n): ";
   cin >> input;
-  if(input=="y"){
+  if(input=="n"){
     for(auto read : ini["Boats"]){
       cin.ignore();
       Ship temp;
@@ -230,22 +233,44 @@ void computerGame(){
     }
     boardDraw(x,y,ships);
   }
-  if(input=="n"){
-    cout << generateNumber(10);
+  if(input=="y"){
     for(auto read : ini["Boats"]){
       Ship temp;
+      int tempX = generateNumber(9);
+      int tempY = generateNumber(9);
       temp.setName(read.first);
       temp.setLength(stoi(read.second));
-      temp.setX(generateNumber(9));
-      temp.setY(generateNumber(10));
-      temp.setDirection("left");
+      temp.setX(tempX);
+      temp.setY(tempY);
+      if(tempX>5){
+        temp.setDirection("left");
+      }
+      else if(tempY>5){
+        temp.setDirection("up");
+      }
+      else{
+        temp.setDirection("down");
+      }
+      vector<int> tempXVector = temp.getPosX();
+      for(int i = 0; i<ships.size(); i++){
+        vector<int> posXVector = ships[i].getPosX();
+        for(int k = 0; k<tempXVector.size(); k++){
+          for(int h = 0; h<posXVector.size(); h++){
+            if(posXVector[h]==tempXVector[k]){
+              // cout << "\n";
+              // cout << temp.getName() << " Spawned on " << ships[i].getName();
+                int tempX = generateNumber(9);
+                int tempY = generateNumber(9);
+            }
+          }
+        }
+      }
       ships.push_back(temp);
       counter++;
-      temp.getName();
-      temp.getDirection();
       cout << "\nShip : " << temp.getName() << " placed at " << temp.getX() << temp.getY() << "\n";
   }
   boardDraw(x,y,ships);
+
 }
   else{
     cout << "Please enter either Y or N: ";
