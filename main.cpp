@@ -10,11 +10,25 @@ using namespace std;
 #include <map>
 #include <random>
 
+vector<int> shots;
+
 int generateNumber(int maxValue){
     random_device rdev;
     mt19937 rgen(rdev());
     uniform_int_distribution<int> idist(1, maxValue); //(inclusive, inclusive)
     return idist(rgen);
+}
+
+int swapNumber(string letter){
+  return (int)letter[0] - 96;
+}
+
+void fire(){
+  cin.ignore();
+  cout << "Where would you like to fire (eg a2 lowercase): ";
+  string temp;
+  getline(cin,temp);
+  shots.push_back(swapNumber(temp));
 }
 
 class Ship{
@@ -274,16 +288,23 @@ void computerGame(){
   string tempInput;
   cin >> tempInput;
   if(tempInput=="y"){
-    
+    fire();
   }
   if(tempInput=="n"){
     computerGame();
+  }
+  else{
+    fire();
   }
   }
   else{
     cout << "Please enter either Y or N: ";
     computerGame();
   }
+}
+vector <Ship> enemyShips;
+void enemyShips(){
+
 }
 
 void menu(){
