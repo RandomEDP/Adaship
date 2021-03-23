@@ -24,13 +24,7 @@ int swapNumber(string letter){
   return (int)letter[0] - 96;
 }
 
-void fire(){
-  cin.ignore();
-  cout << "Where would you like to fire (eg a2 lowercase): ";
-  string temp;
-  getline(cin,temp);
-  shots.push_back(swapNumber(temp));
-}
+
 
 class Ship{
   private:
@@ -129,6 +123,7 @@ class Ship{
       }
   };
 vector <Ship> ships;
+vector <Ship> enemyShips;
 int boardDraw(int x, int y,vector<Ship> ships){
   cout << "\n";
   int maxX = 0;
@@ -178,8 +173,7 @@ int boardDraw(int x, int y,vector<Ship> ships){
 }
 
 void autoplace(){
-    ships.clear();
-    // first, create a file instance
+  // first, create a file instance
   mINI::INIFile file("adaship_config.ini");
 
   // next, create a structure that will hold data
@@ -191,12 +185,49 @@ void autoplace(){
   int y = stoi(ini["Board"]["y"]);
       for(auto read : ini["Boats"]){
       Ship temp;
-      int tempX = generateNumber(9);
-      int tempY = generateNumber(9);
+      int tempX = generateNumber(x-1);
+      int tempY = generateNumber(y-1);
+      vector<int> tempXVector = temp.getPosX();
+      // for(int i = 0; i<ships.size(); i++){
+      //   vector<int> posXVector = ships[i].getPosX();
+      //   vector<int> posYVector = ships[i].getPosY();
+      //     for(int h = 0; h<posXVector.size(); h++){
+      //       if(posXVector[h]==tempX){
+      //         // // cout << "\n";
+      //         // // cout << temp.getName() << " Spawned on " << ships[i].getName();
+      //         // int tempX = generateNumber(9);
+      //         // int tempY = generateNumber(9);
+      //         // temp.setName(read.first);
+      //         // temp.setLength(stoi(read.second));
+      //         // temp.setX(tempX);
+      //         // temp.setY(tempY);
+      //         // if(tempX>5){
+      //         //   temp.setDirection("left");
+      //         // }
+      //         // else if(tempY>5){
+      //         //   temp.setDirection("up");
+      //         // }
+      //         // else{
+      //         //   temp.setDirection("down");
+      //         // }
+      //         // cout << "\nShip : " << temp.getName() << " placed at " << temp.getX() << temp.getY() << "\n";
+      //         // cout << temp.getName() << "is on " << ships[i].getName();
+      //         ships.clear();
+      //         autoplace();
+      //       }
+      //   }
+      //     for(int o = 0; o<posYVector.size(); o++){
+      //       if(posXVector[o]==tempY){
+      //         ships.clear();
+      //         autoplace();
+      //       }
+      //   }
+      // }
       temp.setName(read.first);
       temp.setLength(stoi(read.second));
       temp.setX(tempX);
       temp.setY(tempY);
+
       if(tempX>5){
         temp.setDirection("left");
       }
@@ -206,41 +237,55 @@ void autoplace(){
       else{
         temp.setDirection("down");
       }
-      vector<int> tempXVector = temp.getPosX();
-      for(int i = 0; i<ships.size(); i++){
-        vector<int> posXVector = ships[i].getPosX();
-        for(int k = 0; k<tempXVector.size(); k++){
-          for(int h = 0; h<posXVector.size(); h++){
-            if(posXVector[h]==tempXVector[k]){
-              // // cout << "\n";
-              // // cout << temp.getName() << " Spawned on " << ships[i].getName();
-              // int tempX = generateNumber(9);
-              // int tempY = generateNumber(9);
-              // temp.setName(read.first);
-              // temp.setLength(stoi(read.second));
-              // temp.setX(tempX);
-              // temp.setY(tempY);
-              // if(tempX>5){
-              //   temp.setDirection("left");
-              // }
-              // else if(tempY>5){
-              //   temp.setDirection("up");
-              // }
-              // else{
-              //   temp.setDirection("down");
-              // }
-              cout << "\nTES\n";
-              autoplace();
-              break;
-            }
-          }
-        }
-      }
+
       ships.push_back(temp);
-      cout << "\nShip : " << temp.getName() << " placed at " << temp.getX() << temp.getY() << "\n";
+      // cout << "\nShip : " << temp.getName() << " placed at " << temp.getX() << temp.getY() << "\n";
   }
 }
+void enemyplace(){
+  // first, create a file instance
+  mINI::INIFile file("adaship_config.ini");
 
+  // next, create a structure that will hold data
+  mINI::INIStructure ini;
+
+  // now we can read the file
+  file.read(ini);
+  int x = stoi(ini["Board"]["x"]);
+  int y = stoi(ini["Board"]["y"]);
+      for(auto read : ini["Boats"]){
+      Ship temp;
+      int tempX = generateNumber(x-1);
+      int tempY = generateNumber(y-1);
+      temp.setName(read.first);
+      temp.setLength(stoi(read.second));
+      temp.setX(tempX);
+      temp.setY(tempY);
+
+      if(tempX>5){
+        temp.setDirection("left");
+      }
+      else if(tempY>5){
+        temp.setDirection("up");
+      }
+      else{
+        temp.setDirection("down");
+      }
+
+     enemyShips.push_back(temp);
+      // cout << "\nShip : " << temp.getName() << " placed at " << temp.getX() << temp.getY() << "\n";
+  }
+  cout << "\nENEMY SHIPS\n";
+  boardDraw(x,y,enemyShips);
+}
+void fire(){
+  cin.ignore();
+  cout << "Where would you like to fire (eg a2 lowercase): ";
+  string temp;
+  getline(cin,temp);
+  shots.push_back(swapNumber(temp));
+  enemyplace();
+}
 void computerGame(){
   // first, create a file instance
   mINI::INIFile file("adaship_config.ini");
@@ -322,6 +367,7 @@ void computerGame(){
       fire();
     }
     if(tempInput=="n"){
+      ships.clear();
       computerGame();
     }
   else{
@@ -332,10 +378,6 @@ void computerGame(){
     cout << "Please enter either Y or N: ";
     computerGame();
   }
-}
-vector <Ship> enemyShipsList;
-void enemyShips(){
-
 }
 
 void menu(){
