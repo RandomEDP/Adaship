@@ -41,8 +41,11 @@ class Ship{
     vector <int> posX;
     vector <int> posY;
     string direction;
-
+    int health;
     public:
+      void setHealth(){
+        health = length;
+      }
       void setName(string n){
         name = n;
       }
@@ -310,18 +313,19 @@ void fire(){
     vector <int> temp = enemyShips[n].getPosX();
     for(int g = 0; g<enemyShips[n].getPosX().size(); g++){
       for(int k = 0; k<enemyShips[n].getPosY().size(); k++){
-        cout << k;
         if(xShot==enemyShips[n].getPosX()[g]){
-          cout << "X hit";
           int tempp = enemyShips[n].getLength(); 
           if(tempp==0){
+            enemyShips[n].setX(0);
+            enemyShips[n].setY(0);
             enemyShips[n].clearPosX();
-            enemyShips[n].clearPosY();
+            enemyShips[n].clearPosX();
           }
           enemyShips[n].clearPosX();
           enemyShips[n].clearPosY();
           enemyShips[n].setLength(tempp-1);
           enemyShips[n].getPosX();          
+          cout << tempp;
           if(yShot==enemyShips[n].getPosY()[k]){
             cout << "Y HIT";
           }
