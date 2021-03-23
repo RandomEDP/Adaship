@@ -12,6 +12,7 @@ using namespace std;
 
 vector<int> shots;
 
+
 int generateNumber(int maxValue){
     random_device rdev;
     mt19937 rgen(rdev());
@@ -127,6 +128,7 @@ class Ship{
         return posY; 
       }
   };
+vector <Ship> ships;
 int boardDraw(int x, int y,vector<Ship> ships){
   cout << "\n";
   int maxX = 0;
@@ -175,6 +177,69 @@ int boardDraw(int x, int y,vector<Ship> ships){
   return 1;
 }
 
+void autoplace(){
+    // first, create a file instance
+  mINI::INIFile file("adaship_config.ini");
+
+  // next, create a structure that will hold data
+  mINI::INIStructure ini;
+
+  // now we can read the file
+  file.read(ini);
+  int x = stoi(ini["Board"]["x"]);
+  int y = stoi(ini["Board"]["y"]);
+      for(auto read : ini["Boats"]){
+      Ship temp;
+      int tempX = generateNumber(9);
+      int tempY = generateNumber(9);
+      temp.setName(read.first);
+      temp.setLength(stoi(read.second));
+      temp.setX(tempX);
+      temp.setY(tempY);
+      if(tempX>5){
+        temp.setDirection("left");
+      }
+      else if(tempY>5){
+        temp.setDirection("up");
+      }
+      else{
+        temp.setDirection("down");
+      }
+      vector<int> tempXVector = temp.getPosX();
+      for(int i = 0; i<ships.size(); i++){
+        vector<int> posXVector = ships[i].getPosX();
+        for(int k = 0; k<tempXVector.size(); k++){
+          for(int h = 0; h<posXVector.size(); h++){
+            if(posXVector[h]==tempXVector[k]){
+              // // cout << "\n";
+              // // cout << temp.getName() << " Spawned on " << ships[i].getName();
+              // int tempX = generateNumber(9);
+              // int tempY = generateNumber(9);
+              // temp.setName(read.first);
+              // temp.setLength(stoi(read.second));
+              // temp.setX(tempX);
+              // temp.setY(tempY);
+              // if(tempX>5){
+              //   temp.setDirection("left");
+              // }
+              // else if(tempY>5){
+              //   temp.setDirection("up");
+              // }
+              // else{
+              //   temp.setDirection("down");
+              // }
+              autoplace();
+              break;
+            }
+          }
+        }
+      }
+      ships.push_back(temp);
+      cout << "\nShip : " << temp.getName() << " placed at " << temp.getX() << temp.getY() << "\n";
+      boardDraw(x,y,ships);
+  }
+}
+
 void computerGame(){
   // first, create a file instance
   mINI::INIFile file("adaship_config.ini");
@@ -195,7 +260,6 @@ void computerGame(){
   int inputY;
   string input;
   string inputDirection;
-  vector <Ship> ships;
   cout << "Would you like to autoplace your ships(y/n): ";
   cin >> input;
   if(input=="n"){
@@ -248,41 +312,7 @@ void computerGame(){
     boardDraw(x,y,ships);
   }
   if(input=="y"){
-    for(auto read : ini["Boats"]){
-      Ship temp;
-      int tempX = generateNumber(9);
-      int tempY = generateNumber(9);
-      temp.setName(read.first);
-      temp.setLength(stoi(read.second));
-      temp.setX(tempX);
-      temp.setY(tempY);
-      if(tempX>5){
-        temp.setDirection("left");
-      }
-      else if(tempY>5){
-        temp.setDirection("up");
-      }
-      else{
-        temp.setDirection("down");
-      }
-      vector<int> tempXVector = temp.getPosX();
-      for(int i = 0; i<ships.size(); i++){
-        vector<int> posXVector = ships[i].getPosX();
-        for(int k = 0; k<tempXVector.size(); k++){
-          for(int h = 0; h<posXVector.size(); h++){
-            if(posXVector[h]==tempXVector[k]){
-              // cout << "\n";
-              // cout << temp.getName() << " Spawned on " << ships[i].getName();
-                int tempX = generateNumber(9);
-                int tempY = generateNumber(9);
-            }
-          }
-        }
-      }
-      ships.push_back(temp);
-      counter++;
-      cout << "\nShip : " << temp.getName() << " placed at " << temp.getX() << temp.getY() << "\n";
-  }
+    autoplace();
   boardDraw(x,y,ships);
   cout << "Are you happy with these placement?(y/n): ";
   string tempInput;
@@ -302,7 +332,7 @@ void computerGame(){
     computerGame();
   }
 }
-vector <Ship> enemyShips;
+vector <Ship> enemyShipsList;
 void enemyShips(){
 
 }
