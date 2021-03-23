@@ -58,6 +58,12 @@ class Ship{
       void setDirection(string input){
         direction = input;
       }
+      void setPosX(vector<int> tempPosX){
+        tempPosX = posX;
+      }
+      void setPosY(vector<int> tempPosY){
+        tempPosY = posY;
+      }
       int getY(){
         return y;
       }
@@ -69,6 +75,9 @@ class Ship{
       }
       string getDirection(){
         return direction;
+      }
+      int getLength(){
+        return length;
       }
       vector<int> getPosX(){
         if(direction=="right"){
@@ -302,7 +311,10 @@ void fire(){
         cout << k;
         if(xShot==enemyShips[n].getPosX()[g]){
           cout << "X hit";
-          if((int)number==enemyShips[n].getPosY()[k]){
+          int tempp = enemyShips[n].getLength(); 
+          enemyShips[n].setLength(tempp-1);
+          cout << "\n LENGTH = " << enemyShips[n].getLength();
+          if(yShot==enemyShips[n].getPosY()[k]){
             cout << "Y HIT";
           }
         }
@@ -312,6 +324,7 @@ void fire(){
       }
     }
   }
+  fire();
 }
 void enemyFire(){
   generateNumber(x-1);
