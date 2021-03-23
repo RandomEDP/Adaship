@@ -11,6 +11,8 @@ using namespace std;
 #include <random>
 
 vector<int> shots;
+int x;
+int y;
 
 
 int generateNumber(int maxValue){
@@ -275,16 +277,29 @@ void enemyplace(){
      enemyShips.push_back(temp);
       // cout << "\nShip : " << temp.getName() << " placed at " << temp.getX() << temp.getY() << "\n";
   }
-  cout << "\nENEMY SHIPS\n";
-  boardDraw(x,y,enemyShips);
 }
 void fire(){
+  cout << "\nENEMY SHIPS\n";
+  boardDraw(x,y,enemyShips);
   cin.ignore();
-  cout << "Where would you like to fire (eg a2 lowercase): ";
+  cout << "\nWhere would you like to fire (eg a2 lowercase): ";
   string temp;
   getline(cin,temp);
-  shots.push_back(swapNumber(temp));
-  enemyplace();
+  int xShot = swapNumber(temp);
+  shots.push_back(xShot);
+  for(int i = 0; i<enemyShips.size(); i++){
+    for(int g = 0; g<enemyShips[i].getPosX().size(); g++){
+      if(xShot==enemyShips[i].getPosX()[g]){
+        cout << "HIT";
+      }
+      else{
+        fire();
+      }
+    }
+  }
+}
+void enemyFire(){
+
 }
 void computerGame(){
   // first, create a file instance
@@ -296,8 +311,8 @@ void computerGame(){
   // now we can read the file
   file.read(ini);
 
-  int x = stoi(ini["Board"]["x"]);
-  int y = stoi(ini["Board"]["y"]);
+  x = stoi(ini["Board"]["x"]);
+  y = stoi(ini["Board"]["y"]);
 
 
   cout << "You have choosen a computer game\n";
@@ -386,6 +401,7 @@ void menu(){
   cout << "1. One player v computer game\n";
   cout << "2. Quit\n";
   cin >> value;
+  enemyplace();
   if(value==1){
     computerGame();
     
