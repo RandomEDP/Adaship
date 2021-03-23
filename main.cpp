@@ -79,6 +79,12 @@ class Ship{
       int getLength(){
         return length;
       }
+      void clearPosX(){
+        posX.clear();
+      }
+      void clearPosY(){
+        posY.clear();
+      }
       vector<int> getPosX(){
         if(direction=="right"){
           for(int n = 0; length > n; n++){
@@ -300,10 +306,6 @@ void fire(){
   int xShot = swapNumber(letter);
   int yShot = int(number);
   shots.push_back(xShot);
-  cout << enemyShips[4].getPosX()[1] << "\n";
-  cout << xShot << "\n";
-  cout << enemyShips[4].getPosY()[1] << "\n";
-  cout << number << "\n";
   for(int n = 0; n<enemyShips.size();){
     vector <int> temp = enemyShips[n].getPosX();
     for(int g = 0; g<enemyShips[n].getPosX().size(); g++){
@@ -312,6 +314,12 @@ void fire(){
         if(xShot==enemyShips[n].getPosX()[g]){
           cout << "X hit";
           int tempp = enemyShips[n].getLength(); 
+          if(tempp==0){
+            enemyShips[n].clearPosX();
+            enemyShips[n].clearPosY();
+          }
+          enemyShips[n].clearPosX();
+          enemyShips[n].clearPosY();
           enemyShips[n].setLength(tempp-1);
           enemyShips[n].getPosX();          
           if(yShot==enemyShips[n].getPosY()[k]){
