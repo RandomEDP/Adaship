@@ -289,24 +289,26 @@ void fire(){
   char letter = temp[0];
   char number = temp[1];
   int xShot = swapNumber(letter);
+  int yShot = int(number);
   shots.push_back(xShot);
   cout << enemyShips[4].getPosX()[1] << "\n";
   cout << xShot << "\n";
   cout << enemyShips[4].getPosY()[1] << "\n";
   cout << number << "\n";
-  for(int i = 0; i<5; i++){
-    vector <int> temp = enemyShips[i].getPosX();
-    for(int g = 0; g<enemyShips[i].getPosX().size(); g++){
-      for(int k = 0; k<enemyShips[i].getPosY().size(); k++){
-        if(xShot==enemyShips[i].getPosX()[g]){
-          cout<<"x hit";
-          if(number==enemyShips[i].getPosY()[k]){
-            cout << "y HIT";
-            enemyShips.clear();
+  for(int n = 0; n<enemyShips.size();){
+    vector <int> temp = enemyShips[n].getPosX();
+    for(int g = 0; g<enemyShips[n].getPosX().size(); g++){
+      for(int k = 0; k<enemyShips[n].getPosY().size(); k++){
+        cout << k;
+        if(xShot==enemyShips[n].getPosX()[g]){
+          cout << "X hit";
+          if((int)number==enemyShips[n].getPosY()[k]){
+            cout << "Y HIT";
           }
         }
         else{
         }
+        n++;
       }
     }
   }
