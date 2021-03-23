@@ -314,6 +314,7 @@ void fire(){
           int tempp = enemyShips[n].getLength(); 
           enemyShips[n].setLength(tempp-1);
           cout << "\n LENGTH = " << enemyShips[n].getLength();
+            
           if(yShot==enemyShips[n].getPosY()[k]){
             cout << "Y HIT";
           }
