@@ -178,6 +178,7 @@ int boardDraw(int x, int y,vector<Ship> ships){
 }
 
 void autoplace(){
+    ships.clear();
     // first, create a file instance
   mINI::INIFile file("adaship_config.ini");
 
@@ -228,6 +229,7 @@ void autoplace(){
               // else{
               //   temp.setDirection("down");
               // }
+              cout << "\nTES\n";
               autoplace();
               break;
             }
@@ -236,7 +238,6 @@ void autoplace(){
       }
       ships.push_back(temp);
       cout << "\nShip : " << temp.getName() << " placed at " << temp.getX() << temp.getY() << "\n";
-      boardDraw(x,y,ships);
   }
 }
 
@@ -313,19 +314,19 @@ void computerGame(){
   }
   if(input=="y"){
     autoplace();
-  boardDraw(x,y,ships);
-  cout << "Are you happy with these placement?(y/n): ";
-  string tempInput;
-  cin >> tempInput;
-  if(tempInput=="y"){
-    fire();
-  }
-  if(tempInput=="n"){
-    computerGame();
-  }
+    boardDraw(x,y,ships);
+    cout << "Are you happy with these placement?(y/n): ";
+    string tempInput;
+    cin >> tempInput;
+    if(tempInput=="y"){
+      fire();
+    }
+    if(tempInput=="n"){
+      computerGame();
+    }
   else{
     fire();
-  }
+    }
   }
   else{
     cout << "Please enter either Y or N: ";
@@ -345,6 +346,7 @@ void menu(){
   cin >> value;
   if(value==1){
     computerGame();
+    
   }
   else if(value==2){
     quick_exit(1);
