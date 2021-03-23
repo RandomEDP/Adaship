@@ -22,8 +22,9 @@ int generateNumber(int maxValue){
     return idist(rgen);
 }
 
-int swapNumber(string letter){
-  return (int)letter[0] - 96;
+int swapNumber(char letter){
+  // cout << (int)letter - 96;
+  return (int)letter - 96;
 }
 
 
@@ -284,21 +285,32 @@ void fire(){
   cin.ignore();
   cout << "\nWhere would you like to fire (eg a2 lowercase): ";
   string temp;
-  getline(cin,temp);
-  int xShot = swapNumber(temp);
+  cin >> temp;
+  char letter = temp[0];
+  char number = temp[1];
+  int xShot = swapNumber(letter);
+  cout << xShot;
   shots.push_back(xShot);
+  cout << "Your shot is at" << xShot << number;
   for(int i = 0; i<enemyShips.size(); i++){
     for(int g = 0; g<enemyShips[i].getPosX().size(); g++){
-      if(xShot==enemyShips[i].getPosX()[g]){
-        cout << "HIT";
-      }
-      else{
-        fire();
+      for(int k = 0; k<enemyShips[i].getPosY().size(); k++){
+        cout << "\n\n" <<enemyShips[i].getPosY()[g];
+        if(xShot==enemyShips[i].getPosX()[g]){
+          if(number==enemyShips[k].getPosY()[k]){
+            cout << "HIT";
+          }
+        }
+        else{
+          fire();
+        }
       }
     }
   }
 }
 void enemyFire(){
+  generateNumber(x-1);
+  generateNumber(y-1);
 
 }
 void computerGame(){
