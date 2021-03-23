@@ -5,7 +5,7 @@ Adaship is a game of battleships made in C++.
 ![UML Diagram](diagrams/uml.png)
 
 # Breakdown of Tasks to complete
-Create a main-menu system
+Create a main-menu system 
 Pull in data from .ini file, as a cofiguration for the whole game
 Create a number input system that verifies the users response (check validation)
 Create a character input system for further validation
