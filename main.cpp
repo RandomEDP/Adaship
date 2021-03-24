@@ -208,6 +208,7 @@ void autoplace(){
 
   // now we can read the file
   file.read(ini);
+  
   int x = stoi(ini["Board"]["x"]);
   int y = stoi(ini["Board"]["y"]);
       for(auto read : ini["Boats"]){
@@ -215,41 +216,41 @@ void autoplace(){
       int tempX = generateNumber(x-1);
       int tempY = generateNumber(y-1);
       vector<int> tempXVector = temp.getPosX();
-      // for(int i = 0; i<ships.size(); i++){
-      //   vector<int> posXVector = ships[i].getPosX();
-      //   vector<int> posYVector = ships[i].getPosY();
-      //     for(int h = 0; h<posXVector.size(); h++){
-      //       if(posXVector[h]==tempX){
-      //         // // cout << "\n";
-      //         // // cout << temp.getName() << " Spawned on " << ships[i].getName();
-      //         // int tempX = generateNumber(9);
-      //         // int tempY = generateNumber(9);
-      //         // temp.setName(read.first);
-      //         // temp.setLength(stoi(read.second));
-      //         // temp.setX(tempX);
-      //         // temp.setY(tempY);
-      //         // if(tempX>5){
-      //         //   temp.setDirection("left");
-      //         // }
-      //         // else if(tempY>5){
-      //         //   temp.setDirection("up");
-      //         // }
-      //         // else{
-      //         //   temp.setDirection("down");
-      //         // }
-      //         // cout << "\nShip : " << temp.getName() << " placed at " << temp.getX() << temp.getY() << "\n";
-      //         // cout << temp.getName() << "is on " << ships[i].getName();
-      //         ships.clear();
-      //         autoplace();
-      //       }
-      //   }
-      //     for(int o = 0; o<posYVector.size(); o++){
-      //       if(posXVector[o]==tempY){
-      //         ships.clear();
-      //         autoplace();
-      //       }
-      //   }
-      // }
+      for(int i = 0; i<ships.size(); i++){
+        vector<int> posXVector = ships[i].getPosX();
+        vector<int> posYVector = ships[i].getPosY();
+          for(int h = 0; h<posXVector.size(); h++){
+            if(posXVector[h]==tempX){
+              // cout << "\n";
+              // cout << temp.getName() << " Spawned on " << ships[i].getName();
+              int tempX = generateNumber(9);
+              int tempY = generateNumber(9);
+              temp.setName(read.first);
+              temp.setLength(stoi(read.second));
+              temp.setX(tempX);
+              temp.setY(tempY);
+              if(tempX>5){
+                temp.setDirection("left");
+              }
+              else if(tempY>5){
+                temp.setDirection("up");
+              }
+              else{
+                temp.setDirection("down");
+              }
+              cout << "\nShip : " << temp.getName() << " placed at " << temp.getX() << temp.getY() << "\n";
+              cout << temp.getName() << "is on " << ships[i].getName();
+              ships.clear();
+              autoplace();
+            }
+        }
+          for(int o = 0; o<posYVector.size(); o++){
+            if(posXVector[o]==tempY){
+              ships.clear();
+              autoplace();
+            }
+        }
+      }
       temp.setName(read.first);
       temp.setLength(stoi(read.second));
       temp.setX(tempX);
@@ -329,9 +330,9 @@ void fire(){
     for(int g = 0; g<enemyShips[n].getPosX().size(); g++){
       for(int k = 0; k<enemyShips[n].getPosY().size(); k++){
         if(xShot==enemyShips[n].getPosX()[g]){
-          int tempp = enemyShips[n].getLength(); 
           cout << "Hit";
-          if(tempp<=1){
+          if(enemyShips[n].getLength()==1){
+            cout<<"Entered Loop";
             enemyShips[n].setX(100);
             enemyShips[n].setY(100);
             enemyShips[n].clearPosX();
@@ -344,15 +345,17 @@ void fire(){
           }
           if(counter==enemyShips.size()){
             cout<< "\n\n\n\nYou won";
+            win = true;
             break;
           }
-          else{
+          else if(enemyShips[n].getLength()>=2){
             enemyShips[n].clearPosX();
             enemyShips[n].clearPosY();
-            enemyShips[n].setLength(tempp-1);
+            enemyShips[n].setLength(enemyShips[n].getLength()-1);
             enemyShips[n].getPosX();       
           }   
           if(yShot==enemyShips[n].getPosY()[k]){
+            cout<<"HIT";
           }
         }
         else{
