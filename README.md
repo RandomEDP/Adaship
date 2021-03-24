@@ -1,4 +1,4 @@
-# Task Lists <br />
+# Task Lists
 Create a main-menu system <br />
 Pull in data from .ini file, as a cofiguration for the whole game <br />
 Create a number input system that verifies the users response (check validation)<br />
