@@ -14,21 +14,25 @@ vector<int> shots;
 int x;
 int y;
 
-
+//this generates a random number with a max value that is passed in
 int generateNumber(int maxValue){
     random_device rdev;
     mt19937 rgen(rdev());
     uniform_int_distribution<int> idist(1, maxValue); //(inclusive, inclusive)
     return idist(rgen);
 }
-
+//this gets a char and changes it to an interger value
 int swapNumber(char letter){
   // cout << (int)letter - 96;
   return (int)letter - 96;
 }
 
+char swapLetter(int number){
+  return(char)number + 96;
+}
 
 
+//this sets up a struct to work with getters and setters
 class Ship{
   private:
 	  //Ship name
@@ -145,6 +149,7 @@ class Ship{
   };
 vector <Ship> ships;
 vector <Ship> enemyShips;
+//this function draws the board using for loops
 int boardDraw(int x, int y,vector<Ship> ships){
   cout << "\n";
   int maxX = 0;
@@ -192,7 +197,7 @@ int boardDraw(int x, int y,vector<Ship> ships){
   }
   return 1;
 }
-
+//this function autoplaces the ships the commeted code is extra valadtion changes
 void autoplace(){
   // first, create a file instance
   mINI::INIFile file("adaship_config.ini");
@@ -263,6 +268,7 @@ void autoplace(){
       // cout << "\nShip : " << temp.getName() << " placed at " << temp.getX() << temp.getY() << "\n";
   }
 }
+//this autoplaces all of the enemy ships into a vector
 void enemyplace(){
   // first, create a file instance
   mINI::INIFile file("adaship_config.ini");
@@ -297,6 +303,14 @@ void enemyplace(){
       // cout << "\nShip : " << temp.getName() << " placed at " << temp.getX() << temp.getY() << "\n";
   }
 }
+void enemyFire(){
+  vector <int> xShot;
+  vector <int> yShot;
+  xShot.push_back(generateNumber(x-1));
+  yShot.push_back(generateNumber(y-1));
+  cout << "Enemy shot at " << swapLetter(generateNumber(y-1)) <<generateNumber(x-1) << " it missed";
+}
+//this allows the user to shot
 void fire(){
   cout << "\nENEMY SHIPS\n";
   boardDraw(x,y,enemyShips);
@@ -325,9 +339,7 @@ void fire(){
           enemyShips[n].clearPosY();
           enemyShips[n].setLength(tempp-1);
           enemyShips[n].getPosX();          
-          cout << tempp;
           if(yShot==enemyShips[n].getPosY()[k]){
-            cout << "Y HIT";
           }
         }
         else{
@@ -336,12 +348,7 @@ void fire(){
       }
     }
   }
-  fire();
-}
-void enemyFire(){
-  generateNumber(x-1);
-  generateNumber(y-1);
-
+  enemyFire();
 }
 void computerGame(){
   // first, create a file instance
@@ -446,7 +453,10 @@ void menu(){
   enemyplace();
   if(value==1){
     computerGame();
-    
+    enemyFire();
+    enemyFire();
+    enemyFire();
+    enemyFire();
   }
   else if(value==2){
     quick_exit(1);
