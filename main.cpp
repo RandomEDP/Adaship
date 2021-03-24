@@ -49,6 +49,7 @@ class Ship{
     public:
       bool destroyed = false;
       bool collison = false;
+      //These are getters and setters to obtain the private vars
       void setHealth(){
         health = length;
       }
@@ -152,6 +153,7 @@ class Ship{
 vector <Ship> ships;
 vector <Ship> enemyShips;
 //this function draws the board using for loops
+//the params 
 int boardDraw(int x, int y,vector<Ship> ships){
   cout << "\n";
   int maxX = 0;
