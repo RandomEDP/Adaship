@@ -237,8 +237,8 @@ void autoplace(){
                 for(int r=0; r<tempYVector.size();r++){
                 if(posXVector[h]==tempXVector[l]){
                   if(posYVector[o]==tempYVector[r]){
-                    autoplace();
                     cout<<"\nnew";
+                    autoplace();
                     return;
 
                 }
