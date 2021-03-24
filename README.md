@@ -1,3 +1,13 @@
+# The Problem
+As part of this course I was assigned the prokect of creating the popular game battleships in c++. There was many game modes listed in the inital spec sheet so I knew I needed to make a ship class which would allow easy inheritance. This allowed me to store and access lots of infomation using getters and setters. It was at this point where I ran into issues with replit and my different files because of this I merged all of the files into a single C++ file, this fixed that issue. 
+
+# Plan
+I sat down and decided the first thing I needed to do was make a ship class and a vector to contain the ship class. This allowed me to use the same class for the enemy ships. This also allowed me to run simple checks to see if the ship was hit/destroyed and therefore see if the player had won. I then decided to find a libary which allowed easy reading of .ini files. I made and put this in the src file and it is reference at the top of all the files
+
+#
+
+
+
 # Task Lists
 Create a main-menu system <br />
 Pull in data from .ini file, as a cofiguration for the whole game <br />
