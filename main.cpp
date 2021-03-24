@@ -307,24 +307,35 @@ void enemyFire(){
   yShot.push_back(generateNumber(y-1));
   cout << "\nEnemy shot at " << swapLetter(generateNumber(y-1)) <<generateNumber(x-1) << " it missed\n";
 }
-//this allows the user to shot
+//this allows the user to shot and comapres it with the enemy ships
 void fire(){
+  int xShot;
+  int yShot;
   cout << "\nENEMY SHIPS\n";
   boardDraw(x,y,enemyShips);
+  cout << "Would you like to autofire(y/n): ";
+  string inputTemp;
+  cin >> inputTemp;
+  if(inputTemp=="y"){
+    xShot =generateNumber(9);
+    cout << "You shot at " << swapLetter(xShot) << generateNumber(10);
+  }
+  else if (inputTemp=="n"){
   cin.ignore();
   cout << "\nWhere would you like to fire (eg a2 lowercase): ";
   string temp;
   cin >> temp;
   char letter = temp[0];
   char number = temp[1];
-  int xShot = swapNumber(letter);
-  int yShot = int(number);
+  xShot = swapNumber(letter);
+  yShot = int(number);
+  }
   shots.push_back(xShot);
   for(int n = 0; n<enemyShips.size();){
     vector <int> temp = enemyShips[n].getPosX();
     for(int g = 0; g<enemyShips[n].getPosX().size(); g++){
       for(int k = 0; k<enemyShips[n].getPosY().size(); k++){
-        if(xShot==enemyShips[n].getPosX()[g]){
+        if(xShot==enemyShips[n].getPosX()[g]){//check if shot hit enemy
           cout << "Hit";
           if(enemyShips[n].getLength()==1){
             cout<<"Entered Loop";
@@ -339,7 +350,7 @@ void fire(){
             counter++;
           }
           if(counter==enemyShips.size()){
-            cout<< "\n\n\n\nYou won";
+            cout<< "\n\n\n\nYou won\n\n";//win conditon
             win = true;
             break;
           }
