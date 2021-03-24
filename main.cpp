@@ -237,9 +237,9 @@ void autoplace(){
                 for(int r=0; r<tempYVector.size();r++){
                 if(posXVector[h]==tempXVector[l]){
                   if(posYVector[o]==tempYVector[r]){
-                    cout<<tempX;
-                    autoplace();
-                    return;
+                    // autoplace();
+                    // cout<<"\nnew";
+                    // return;
 
                 }
               } 
@@ -263,11 +263,14 @@ void autoplace(){
       
   }
 }
+//this autoplaces all of the enemy ships into a vector
 void enemyplace(){
   // first, create a file instance
   mINI::INIFile file("adaship_config.ini");
+
   // next, create a structure that will hold data
   mINI::INIStructure ini;
+
   // now we can read the file
   file.read(ini);
   int x = stoi(ini["Board"]["x"]);
@@ -276,41 +279,11 @@ void enemyplace(){
       Ship temp;
       int tempX = generateNumber(x-1);
       int tempY = generateNumber(y-1);
-      temp.setX(tempX);
-      temp.setY(tempY);
       temp.setName(read.first);
       temp.setLength(stoi(read.second));
-      if(tempX>5){
-        temp.setDirection("left");
-      }
-      else if(tempY>5){
-        temp.setDirection("up");
-      }
-      else{
-        temp.setDirection("down");
-      }
-      vector<int> tempXVector = temp.getPosX();
-      vector<int> tempYVector = temp.getPosY();
-      for(int i = 0; i<enemyShips.size(); i++){
-        vector<int> posXVector = enemyShips[i].getPosX();
-        vector<int> posYVector = enemyShips[i].getPosY();
-          for(int h = 0; h<posXVector.size(); h++){
-            for(int o = 0; o<posYVector.size(); o++){
-              for(int l=0; l<tempXVector.size();l++){
-                for(int r=0; r<tempYVector.size();r++){
-                if(posXVector[h]==tempXVector[l]){
-                  if(posYVector[o]==tempYVector[r]){
-                    cout<<tempX;
-                    autoplace();
-                    return;
+      temp.setX(tempX);
+      temp.setY(tempY);
 
-                }
-              } 
-              }
-              }
-           }
-          }
-      }
       if(tempX>5){
         temp.setDirection("left");
       }
@@ -321,12 +294,10 @@ void enemyplace(){
         temp.setDirection("down");
       }
 
-      enemyShips.push_back(temp);
+     enemyShips.push_back(temp);
       // cout << "\nShip : " << temp.getName() << " placed at " << temp.getX() << temp.getY() << "\n";
-      
   }
 }
-//this autoplaces all of the enemy ships into a vector
 void enemyFire(){
   vector <int> xShot;
   vector <int> yShot;
