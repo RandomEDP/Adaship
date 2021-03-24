@@ -1,4 +1,4 @@
-#Task Lists <br />
+# Task Lists <br />
 Create a main-menu system <br />
 Pull in data from .ini file, as a cofiguration for the whole game <br />
 Create a number input system that verifies the users response (check validation)<br />
@@ -18,5 +18,5 @@ Have options to "quit game" and "end turn".<br />
 After every turn check if all ships have been destroyed<br />
 Go back to main-menu when game is complete.<br />
 
-#UML
+# UML
 https://docs.google.com/document/d/1qoILyG0YUlslBbqGbWmLkhv-bbJsZQtBMIt_64IM1hs/edit?usp=sharing

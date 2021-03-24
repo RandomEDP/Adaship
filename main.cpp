@@ -9,11 +9,11 @@ using namespace std;
 #include <stdlib.h>
 #include <map>
 #include <random>
-
 vector<int> shots;
 int x;
 int y;
-
+bool win;
+int counter;
 //this generates a random number with a max value that is passed in
 int generateNumber(int maxValue){
     random_device rdev;
@@ -47,6 +47,7 @@ class Ship{
     string direction;
     int health;
     public:
+      bool destroyed = false;
       void setHealth(){
         health = length;
       }
@@ -308,7 +309,7 @@ void enemyFire(){
   vector <int> yShot;
   xShot.push_back(generateNumber(x-1));
   yShot.push_back(generateNumber(y-1));
-  cout << "Enemy shot at " << swapLetter(generateNumber(y-1)) <<generateNumber(x-1) << " it missed";
+  cout << "\nEnemy shot at " << swapLetter(generateNumber(y-1)) <<generateNumber(x-1) << " it missed\n";
 }
 //this allows the user to shot
 void fire(){
@@ -329,16 +330,28 @@ void fire(){
       for(int k = 0; k<enemyShips[n].getPosY().size(); k++){
         if(xShot==enemyShips[n].getPosX()[g]){
           int tempp = enemyShips[n].getLength(); 
-          if(tempp==0){
-            enemyShips[n].setX(0);
-            enemyShips[n].setY(0);
+          cout << "Hit";
+          if(tempp<=1){
+            enemyShips[n].setX(100);
+            enemyShips[n].setY(100);
             enemyShips[n].clearPosX();
             enemyShips[n].clearPosX();
+            enemyShips[n].getPosX();
+            enemyShips[n].getPosY();
+            cout << "\nDestroyed " << enemyShips[n].getName();
+            enemyShips[n].destroyed = false;
+            counter++;
           }
-          enemyShips[n].clearPosX();
-          enemyShips[n].clearPosY();
-          enemyShips[n].setLength(tempp-1);
-          enemyShips[n].getPosX();          
+          if(counter==enemyShips.size()){
+            cout<< "\n\n\n\nYou won";
+            break;
+          }
+          else{
+            enemyShips[n].clearPosX();
+            enemyShips[n].clearPosY();
+            enemyShips[n].setLength(tempp-1);
+            enemyShips[n].getPosX();       
+          }   
           if(yShot==enemyShips[n].getPosY()[k]){
           }
         }
@@ -348,7 +361,6 @@ void fire(){
       }
     }
   }
-  enemyFire();
 }
 void computerGame(){
   // first, create a file instance
@@ -428,14 +440,14 @@ void computerGame(){
     string tempInput;
     cin >> tempInput;
     if(tempInput=="y"){
-      fire();
+      
     }
     if(tempInput=="n"){
       ships.clear();
       computerGame();
     }
   else{
-    fire();
+    
     }
   }
   else{
@@ -453,10 +465,12 @@ void menu(){
   enemyplace();
   if(value==1){
     computerGame();
-    enemyFire();
-    enemyFire();
-    enemyFire();
-    enemyFire();
+    //main game loop
+    while(win!=true){
+      fire();
+      enemyFire();
+    }
+
   }
   else if(value==2){
     quick_exit(1);
@@ -470,3 +484,4 @@ void menu(){
 int main() {
   menu();
 }
+
