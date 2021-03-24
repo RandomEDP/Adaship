@@ -48,6 +48,7 @@ class Ship{
     int health;
     public:
       bool destroyed = false;
+      bool collison = false;
       void setHealth(){
         health = length;
       }
@@ -202,60 +203,51 @@ int boardDraw(int x, int y,vector<Ship> ships){
 void autoplace(){
   // first, create a file instance
   mINI::INIFile file("adaship_config.ini");
-
   // next, create a structure that will hold data
   mINI::INIStructure ini;
-
   // now we can read the file
   file.read(ini);
-  
   int x = stoi(ini["Board"]["x"]);
   int y = stoi(ini["Board"]["y"]);
       for(auto read : ini["Boats"]){
       Ship temp;
       int tempX = generateNumber(x-1);
       int tempY = generateNumber(y-1);
+      temp.setX(tempX);
+      temp.setY(tempY);
+      temp.setName(read.first);
+      temp.setLength(stoi(read.second));
+      if(tempX>5){
+        temp.setDirection("left");
+      }
+      else if(tempY>5){
+        temp.setDirection("up");
+      }
+      else{
+        temp.setDirection("down");
+      }
       vector<int> tempXVector = temp.getPosX();
+      vector<int> tempYVector = temp.getPosY();
       for(int i = 0; i<ships.size(); i++){
         vector<int> posXVector = ships[i].getPosX();
         vector<int> posYVector = ships[i].getPosY();
           for(int h = 0; h<posXVector.size(); h++){
-            if(posXVector[h]==tempX){
-              // cout << "\n";
-              // cout << temp.getName() << " Spawned on " << ships[i].getName();
-              int tempX = generateNumber(9);
-              int tempY = generateNumber(9);
-              temp.setName(read.first);
-              temp.setLength(stoi(read.second));
-              temp.setX(tempX);
-              temp.setY(tempY);
-              if(tempX>5){
-                temp.setDirection("left");
-              }
-              else if(tempY>5){
-                temp.setDirection("up");
-              }
-              else{
-                temp.setDirection("down");
-              }
-              cout << "\nShip : " << temp.getName() << " placed at " << temp.getX() << temp.getY() << "\n";
-              cout << temp.getName() << "is on " << ships[i].getName();
-              ships.clear();
-              autoplace();
-            }
-        }
-          for(int o = 0; o<posYVector.size(); o++){
-            if(posXVector[o]==tempY){
-              ships.clear();
-              autoplace();
-            }
-        }
-      }
-      temp.setName(read.first);
-      temp.setLength(stoi(read.second));
-      temp.setX(tempX);
-      temp.setY(tempY);
+            for(int o = 0; o<posYVector.size(); o++){
+              for(int l=0; l<tempXVector.size();l++){
+                for(int r=0; r<tempYVector.size();r++){
+                if(posXVector[h]==tempXVector[l]){
+                  if(posYVector[o]==tempYVector[r]){
+                    autoplace();
+                    cout<<"\nnew";
+                    return;
 
+                }
+              } 
+              }
+              }
+           }
+          }
+      }
       if(tempX>5){
         temp.setDirection("left");
       }
@@ -268,6 +260,7 @@ void autoplace(){
 
       ships.push_back(temp);
       // cout << "\nShip : " << temp.getName() << " placed at " << temp.getX() << temp.getY() << "\n";
+      
   }
 }
 //this autoplaces all of the enemy ships into a vector
